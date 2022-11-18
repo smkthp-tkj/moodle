@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  # ! Please disable other web service in the first run
+  # ! Otherwise your moodle install script will crash
+  web1:
+    image: bitnami/moodle
+    ports:
+      - 9201:9201
+    environment:
+      - APACHE_HTTP_PORT_NUMBER=9201
+    env_file:
+      - ./bitnami-moodle.env
+    volumes:
+      - vol_moodle:/bitnami/moodle
+      - vol_moodledata:/bitnami/moodledata
+    depends_on:
+      - db
+  web2:
+    image: bitnami/moodle
+    ports:
+      - 9202:9202
+    environment:
+      - APACHE_HTTP_PORT_NUMBER=9202
+    env_file:
+      - ./bitnami-moodle.env
+    volumes:
+      - vol_moodle:/bitnami/moodle
+      - vol_moodledata:/bitnami/moodledata
+    depends_on:
+      - web1
+  web3:
+    image: bitnami/moodle
+    ports:
+      - 9203:9203
+    environment:
+      - APACHE_HTTP_PORT_NUMBER=9203
+    env_file:
+      - ./bitnami-moodle.env
+    volumes:
+      - vol_moodle:/bitnami/moodle
+      - vol_moodledata:/bitnami/moodledata
+    depends_on:
+      - web2
+  db:
+    image: bitnami/mariadb
+    environment:
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=jaIQuO74xYhXCZCNRHXEghxYNJa8KKEW
+      - MARIADB_DATABASE=moodle
+      - MARIADB_ROOT_PASSWORD=root
+    volumes:
+      - vol_mariadb:/bitnami/mariadb 
+
+volumes:
+  vol_mariadb:
+    driver: local
+  vol_moodle:
+    driver: local
+  vol_moodledata:
+    driver: local
