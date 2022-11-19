@@ -30,7 +30,10 @@ If starting without `-d` or detach, be careful, CTRL+C can kill the whole contai
 
 Also create new hostname for each container when creating new cluster config.
 
+Stopping/Downing main compose (docker-compose.yml) will kill all containers (including in cluster config).
+
 **Go Productive**
+
 I know it's inconvinient to type `docker compose -f cluster2.yml ...`. Well okay. Just use `./dc {cluster_number} {docker compose args}`.
 
 ```shell
