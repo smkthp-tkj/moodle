@@ -1,61 +1,44 @@
 version: '3'
 
 services:
-  # ! Please disable other web service in the first run
-  # ! Otherwise your moodle install script will crash
   web1:
-    image: bitnami/moodle
+    image: bitnami/moodle:4
     ports:
-      - 9201:9201
+      - 9201:8081
     environment:
-      - APACHE_HTTP_PORT_NUMBER=9201
+      - APACHE_HTTP_PORT_NUMBER=8081
     env_file:
       - ./bitnami-moodle.env
     volumes:
       - vol_moodle:/bitnami/moodle
       - vol_moodledata:/bitnami/moodledata
+    networks:
+      - main_net
     depends_on:
       - db
-  web2:
-    image: bitnami/moodle
-    ports:
-      - 9202:9202
-    environment:
-      - APACHE_HTTP_PORT_NUMBER=9202
-    env_file:
-      - ./bitnami-moodle.env
-    volumes:
-      - vol_moodle:/bitnami/moodle
-      - vol_moodledata:/bitnami/moodledata
-    depends_on:
-      - web1
-  web3:
-    image: bitnami/moodle
-    ports:
-      - 9203:9203
-    environment:
-      - APACHE_HTTP_PORT_NUMBER=9203
-    env_file:
-      - ./bitnami-moodle.env
-    volumes:
-      - vol_moodle:/bitnami/moodle
-      - vol_moodledata:/bitnami/moodledata
-    depends_on:
-      - web2
+    restart: always
   db:
-    image: bitnami/mariadb
+    image: bitnami/mariadb:10.6
+    ports:
+      - 3306:3306
     environment:
       - MARIADB_USER=user
       - MARIADB_PASSWORD=jaIQuO74xYhXCZCNRHXEghxYNJa8KKEW
       - MARIADB_DATABASE=moodle
       - MARIADB_ROOT_PASSWORD=root
+    networks:
+      - main_net
     volumes:
-      - vol_mariadb:/bitnami/mariadb 
+      - vol_mariadb:/bitnami/mariadb
+      - ./my.cnf:/opt/bitnami/mariadb/conf/my.cnf
+    restart: always
 
+networks:
+  main_net:
 volumes:
   vol_mariadb:
     driver: local
   vol_moodle:
-    driver: local
+    external: true
   vol_moodledata:
-    driver: local
+    external: true

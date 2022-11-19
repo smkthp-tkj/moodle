@@ -1,0 +1,41 @@
+version: '3'
+
+services:
+  web4:
+    image: bitnami/moodle:4
+    ports:
+      - 9204:8082
+    environment:
+      - APACHE_HTTP_PORT_NUMBER=8082
+    env_file:
+      - ./bitnami-moodle.env
+    volumes:
+      - vol_moodle:/bitnami/moodle
+      - vol_moodledata:/bitnami/moodledata
+    networks:
+      - cluster3_net
+    restart: always
+  
+  web5:
+    image: bitnami/moodle:4
+    ports:
+      - 9205:8083
+    environment:
+      - APACHE_HTTP_PORT_NUMBER=8083
+    env_file:
+      - ./bitnami-moodle.env
+    volumes:
+      - vol_moodle:/bitnami/moodle
+      - vol_moodledata:/bitnami/moodledata
+    networks:
+      - cluster3_net
+    restart: always
+
+volumes:
+  vol_moodle:
+    external: true
+  vol_moodledata:
+    external: true
+
+networks:
+  cluster3_net:

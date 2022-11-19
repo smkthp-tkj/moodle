@@ -2,6 +2,8 @@ upstream moodle_cluster {
     server 127.0.0.1:9201;
     server 127.0.0.1:9202;
     server 127.0.0.1:9203;
+    server 127.0.0.1:9204;
+    server 127.0.0.1:9205;
 }
 
 server {
