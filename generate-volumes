@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+docker volume rm vol_moodle
+docker volume create vol_moodle
+docker volume rm vol_moodledata
+docker volume create vol_moodledata
