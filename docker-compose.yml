@@ -18,25 +18,23 @@ services:
       - db
     restart: always
   db:
-    image: bitnami/mariadb:10.6
+    image: bitnami/postgresql:15
     ports:
-      - 3306:3306
+      - 5432:5432
     environment:
-      - MARIADB_USER=user
-      - MARIADB_PASSWORD=jaIQuO74xYhXCZCNRHXEghxYNJa8KKEW
-      - MARIADB_DATABASE=moodle
-      - MARIADB_ROOT_PASSWORD=root
+      - POSTGRESQL_USERNAME=user
+      - POSTGRESQL_PASSWORD=jaIQuO74xYhXCZCNRHXEghxYNJa8KKEW
+      - POSTGRESQL_DATABASE=moodle
     networks:
       - main_net
     volumes:
-      - vol_mariadb:/bitnami/mariadb
-      - ./my.cnf:/opt/bitnami/mariadb/conf/my.cnf
+      - vol_postgres:/bitnami/postgresql
     restart: always
 
 networks:
   main_net:
 volumes:
-  vol_mariadb:
+  vol_postgres:
     driver: local
   vol_moodle:
     external: true
